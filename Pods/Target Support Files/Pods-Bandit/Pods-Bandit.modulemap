@@ -1,0 +1,6 @@
+framework module Pods_Bandit {
+  umbrella header "Pods-Bandit-umbrella.h"
+
+  export *
+  module * { export * }
+}
