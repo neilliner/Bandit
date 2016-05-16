@@ -49,6 +49,7 @@ class MemberCell: UITableViewCell {
             pfImageView.layer.masksToBounds = false
             pfImageView.layer.cornerRadius = pfImageView.frame.size.width/2
             pfImageView.clipsToBounds = true
+            pfImageView.contentMode = UIViewContentMode.ScaleAspectFill
         }
         
         memberScrollView.contentSize = CGSize(width: widthOfScrollView + CGFloat(imgWH), height: CGFloat(imgWH))

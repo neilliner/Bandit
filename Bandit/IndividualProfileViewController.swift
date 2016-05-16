@@ -12,7 +12,6 @@ import ParseUI
 import AVKit
 import AVFoundation
 
-public var player = AVPlayer()
 
 class IndividualProfileViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate{
 

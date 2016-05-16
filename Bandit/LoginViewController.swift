@@ -174,7 +174,11 @@ class LoginViewController: UIViewController {
         if currentUser != nil {
             // redirect to next view
             print(currentUser)
-            performSegueWithIdentifier("LoginToMainView", sender: self)
+            if (PFUser.currentUser()!.objectForKey("didFirstTimeSetup") == nil || PFUser.currentUser()!.objectForKey("didFirstTimeSetup") as! Bool == false) {
+                self.performSegueWithIdentifier("FirstTimeSetup", sender: self)
+            } else {
+                self.performSegueWithIdentifier("LoginToMainView", sender: self)
+            }
         } else {
             self.view.hidden = false
         }

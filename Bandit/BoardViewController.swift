@@ -179,7 +179,7 @@ class BoardViewController: PFQueryTableViewController{
 
         // Extract values from the PFObject to display in the table cell
         if let type = object?["boardType"] as? String {
-            cell.boardType.text = type
+            cell.boardType.text = type.lowercaseString
             cell.changeLabel(type)
         }
         
@@ -231,8 +231,10 @@ class BoardViewController: PFQueryTableViewController{
         
         if let date = object?["date"] {
             let dateFormatter = NSDateFormatter()
-            dateFormatter.dateStyle = .ShortStyle
+            //dateFormatter.dateStyle = .ShortStyle
+            dateFormatter.dateFormat = "MMM d"
             cell.dateComp.text = dateFormatter.stringFromDate(date as! NSDate)
+            
         }
         
         if let compensation = object?["compensation"] as? Int {
@@ -242,9 +244,9 @@ class BoardViewController: PFQueryTableViewController{
             //let sentence = "Do you want this person to join your band \(bandname)?"
             
             let wordRange = (sentence as NSString).rangeOfString(comp)
-            let attributedString = NSMutableAttributedString(string: sentence, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(18, weight: UIFontWeightThin)])
+            let attributedString = NSMutableAttributedString(string: sentence, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(22, weight: UIFontWeightThin)])
             
-            attributedString.setAttributes([NSFontAttributeName : UIFont.systemFontOfSize(18, weight: UIFontWeightBold), NSForegroundColorAttributeName : AppearanceHelper.itemColor()], range: wordRange)
+            attributedString.setAttributes([NSFontAttributeName : UIFont.systemFontOfSize(22, weight: UIFontWeightBold), NSForegroundColorAttributeName : AppearanceHelper.itemColor()], range: wordRange)
             
             cell.dateComp.attributedText = attributedString
         }

@@ -304,7 +304,12 @@ class ConfirmPersonViewController: UIViewController, UITableViewDelegate, UITabl
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var row = 0
-        
+        print("************************")
+        print(inboxObject)
+        print(status)
+        print(type)
+        print(band)
+        print("************************")
         switch section {
             case 0: row = 1
             case 1: row = 1

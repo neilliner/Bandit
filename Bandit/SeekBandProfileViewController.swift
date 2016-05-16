@@ -180,7 +180,8 @@ class SeekBandProfileViewController: UIViewController, UITableViewDataSource, UI
         var bs = [PFObject]()
         let query = PFQuery(className: "UserBand")
         print("*************getBandMember************** \(bandId)")
-        query.whereKey("band", equalTo: PFObject(withoutDataWithClassName: "Band", objectId: bandId))
+        //query.whereKey("band", equalTo: PFObject(withoutDataWithClassName: "Band", objectId: bandId))
+        query.whereKey("band", equalTo: PFObject(outDataWithClassName: "Band", objectId: bandId))
         
         //        query.findObjectsInBackgroundWithBlock {
         //            (objects: [PFObject]?, error: NSError?) -> Void in

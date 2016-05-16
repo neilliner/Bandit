@@ -272,7 +272,8 @@ class ConfirmBandViewController: UIViewController, UITableViewDataSource, UITabl
         var bs = [PFObject]()
         let query = PFQuery(className: "UserBand")
         print("*************getBandMember************** \(bandId)")
-        query.whereKey("band", equalTo: PFObject(withoutDataWithClassName: "Band", objectId: bandId))
+        //query.whereKey("band", equalTo: PFObject(withoutDataWithClassName: "Band", objectId: bandId))
+        query.whereKey("band", equalTo: PFObject(outDataWithClassName: "Band", objectId: bandId))
         do {
             bs = try query.findObjects()
             //print(bs)
@@ -303,6 +304,14 @@ class ConfirmBandViewController: UIViewController, UITableViewDataSource, UITabl
         let title: UILabel = UILabel()
         title.text = ""
         title.textAlignment = NSTextAlignment.Center
+        
+        print("#########################")
+        print(inboxObject)
+        print(bandObject)
+        print(type)
+        print(status)
+        print(senderUser)
+        print("#########################")
         
         switch section {
         case 0: title.text = ""
@@ -358,6 +367,7 @@ class ConfirmBandViewController: UIViewController, UITableViewDataSource, UITabl
         let bandGenre = makeStringFromArray(getBandGenres(bandObject!), delim: "•")
         if bandObject != nil {
             print("******* bandObject != nil *******")
+            print(bandObject)
 
         }
         
@@ -365,6 +375,7 @@ class ConfirmBandViewController: UIViewController, UITableViewDataSource, UITabl
             let cell = tableView.dequeueReusableCellWithIdentifier("Band Profile") as! BandProfileCell!
 
             let imageFile = bandObject!.objectForKey("photo") as! PFFile
+            print(imageFile)
             imageFile.getDataInBackgroundWithBlock({
                 (imageData: NSData?, error: NSError?) -> Void in
                 if (error == nil) {

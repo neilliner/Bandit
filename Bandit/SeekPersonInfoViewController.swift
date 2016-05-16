@@ -39,7 +39,9 @@ class SeekPersonInfoViewController: UIViewController {
         //self.automaticallyAdjustsScrollViewInsets = false
         
         //query user info
-        self.infoText.text = user!["about"] as! String
+        if let about = user!["about"] as? String {
+            self.infoText.text = about //user["about"] as! String
+        }
     }
     
     override func didReceiveMemoryWarning() {

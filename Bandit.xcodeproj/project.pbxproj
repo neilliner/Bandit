@@ -79,6 +79,7 @@
 		FA87C7861CA7BDD70018E154 /* bandit-button-03.png in Resources */ = {isa = PBXBuildFile; fileRef = FA87C7851CA7BDD70018E154 /* bandit-button-03.png */; };
 		FA87C7881CA8B4D10018E154 /* SeekPersonInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA87C7871CA8B4D10018E154 /* SeekPersonInfoViewController.swift */; };
 		FA87C78A1CA8D71C0018E154 /* bandit-button-04.png in Resources */ = {isa = PBXBuildFile; fileRef = FA87C7891CA8D71C0018E154 /* bandit-button-04.png */; };
+		FAF660AD1CE9A54C0085535A /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF660AC1CE9A54C0085535A /* SignupViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -158,6 +159,7 @@
 		FA87C7851CA7BDD70018E154 /* bandit-button-03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bandit-button-03.png"; sourceTree = "<group>"; };
 		FA87C7871CA8B4D10018E154 /* SeekPersonInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SeekPersonInfoViewController.swift; sourceTree = "<group>"; };
 		FA87C7891CA8D71C0018E154 /* bandit-button-04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bandit-button-04.png"; sourceTree = "<group>"; };
+		FAF660AC1CE9A54C0085535A /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +213,7 @@
 				37C49C881BFC143C00695152 /* AppDelegate.swift */,
 				FA166E771C798C820099F01A /* MainTabBarController.swift */,
 				37C49C8A1BFC143C00695152 /* LoginViewController.swift */,
+				FAF660AC1CE9A54C0085535A /* SignupViewController.swift */,
 				FA166E7F1C7AECF10099F01A /* Step1ViewController.swift */,
 				FA166E811C7B29920099F01A /* Step2ViewController.swift */,
 				FA166E831C7B29A80099F01A /* Step3ViewController.swift */,
@@ -352,7 +355,7 @@
 				TargetAttributes = {
 					37C49C841BFC143C00695152 = {
 						CreatedOnToolsVersion = 7.0;
-						DevelopmentTeam = 75JDLGZGMK;
+						DevelopmentTeam = JQ3CK64G26;
 					};
 				};
 			};
@@ -479,6 +482,7 @@
 				FA39233C1C6B162A001C8171 /* SeekCell.swift in Sources */,
 				FA1168631C8C19F000139FF5 /* BoardFilterViewController.swift in Sources */,
 				FA8694C91CAA0CA700501E86 /* InboxViewController.swift in Sources */,
+				FAF660AD1CE9A54C0085535A /* SignupViewController.swift in Sources */,
 				FA87C7761C9FB1700018E154 /* BandAudioCell.swift in Sources */,
 				37695F891BFC9C9600B7C5A2 /* ProfileCell.swift in Sources */,
 				FA87C7801CA5220F0018E154 /* FullScreenImageViewController.swift in Sources */,
@@ -621,11 +625,15 @@
 			baseConfigurationReference = F61C18BB2F8025F892255740 /* Pods-Bandit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Bandit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pvephula.Bandit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -634,11 +642,15 @@
 			baseConfigurationReference = 62ACEDC5CA4E78C1C95CB4FB /* Pods-Bandit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Bandit/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.pvephula.Bandit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

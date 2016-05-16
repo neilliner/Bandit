@@ -38,12 +38,9 @@ class IndividualInfoViewController: UIViewController {
         loadImages()
         //self.automaticallyAdjustsScrollViewInsets = false
         
-        self.infoText.text = user["about"] as! String
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        if let about = user["about"] as? String {
+            self.infoText.text = about //user["about"] as! String
+        }
     }
     
     func goBack(){
@@ -91,18 +88,10 @@ class IndividualInfoViewController: UIViewController {
             pfImageView.layer.masksToBounds = false
             pfImageView.layer.cornerRadius = pfImageView.frame.size.width/2
             pfImageView.clipsToBounds = true
+            pfImageView.contentMode = UIViewContentMode.ScaleAspectFill
         }
         bandScrollView.contentSize = CGSize(width: widthOfScrollView + 50, height: 50)
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

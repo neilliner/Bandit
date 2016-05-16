@@ -229,13 +229,52 @@ class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDat
         }
     }
     
+//    func getCityForZip(zipCode: String) -> String{
+//        var cityName:String?
+//        let url = NSURL(string: "\(baseUrl)address=\(zipCode)&key=\(apikey)")
+//        let data = NSData(contentsOfURL: url!)
+//        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
+//        if let result = json["results"] as? NSArray {
+//            if let address = result[0]["address_components"] as? NSArray {
+//                if let city = address[1] as? NSDictionary {
+//                    print("**************")
+//                    print(city["long_name"]!)
+//                    cityName = city["long_name"] as? String
+//                }
+//            }
+//        }
+//        return cityName!
+//    }
+//    
+//    func getLatLngForAddress(address: String) -> PFGeoPoint{
+//        var point:PFGeoPoint?
+//        
+//        let ad = address.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
+//        print(address)
+//        let url = NSURL(string: "\(baseUrl)address=%27\(ad)%27&key=\(apikey)")
+//
+//        let data = NSData(contentsOfURL: url!)
+//        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
+//        if let result = json["results"] as? NSArray {
+//            if let geo = result[0]["geometry"] as? NSDictionary {
+//                if let ltng = geo["location"] as? NSDictionary {
+//                    print("**************")
+//                    print(ltng["lat"]!)
+//                    print(ltng["lng"]!)
+//                    point = PFGeoPoint(latitude: Double(ltng["lat"]! as! NSNumber), longitude: Double(ltng["lng"]! as! NSNumber))
+//                }
+//            }
+//        }
+//        return point!
+//    }
+    
     func getCityForZip(zipCode: String) -> String{
         var cityName:String?
         let url = NSURL(string: "\(baseUrl)address=\(zipCode)&key=\(apikey)")
         let data = NSData(contentsOfURL: url!)
         let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
         if let result = json["results"] as? NSArray {
-            if let address = result[0]["address_components"] as? NSArray {
+            if let address = (result[0] as! NSDictionary)["address_components"] as? NSArray {
                 if let city = address[1] as? NSDictionary {
                     print("**************")
                     print(city["long_name"]!)
@@ -252,11 +291,11 @@ class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDat
         let ad = address.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.LiteralSearch, range: nil)
         print(address)
         let url = NSURL(string: "\(baseUrl)address=%27\(ad)%27&key=\(apikey)")
-
+        
         let data = NSData(contentsOfURL: url!)
         let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
         if let result = json["results"] as? NSArray {
-            if let geo = result[0]["geometry"] as? NSDictionary {
+            if let geo = (result[0] as! NSDictionary)["geometry"] as? NSDictionary {
                 if let ltng = geo["location"] as? NSDictionary {
                     print("**************")
                     print(ltng["lat"]!)
@@ -554,6 +593,10 @@ class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDat
         bandArray = getUserBands(PFUser.currentUser()!)
         loadImages()
         
+        //http://stackoverflow.com/questions/26070242/move-view-with-keyboard-using-swift
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        
         self.tabBarController?.tabBar.hidden = true
         self.navigationItem.setHidesBackButton(true, animated:false)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
@@ -641,6 +684,20 @@ class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDat
         grayLayer.hidden = true
         locationPopup.hidden = true
         locationToolbar.backgroundColor = UIColor.clearColor()
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y -= keyboardSize.height
+        }
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y += keyboardSize.height
+        }
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

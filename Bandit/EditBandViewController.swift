@@ -345,6 +345,7 @@ class EditBandViewController: UIViewController, UITableViewDelegate, UITableView
             pfImageView.layer.masksToBounds = false
             pfImageView.layer.cornerRadius = pfImageView.frame.size.width/2
             pfImageView.clipsToBounds = true
+            pfImageView.contentMode = UIViewContentMode.ScaleAspectFill
         }
         
         memberScrollView.contentSize = CGSize(width: widthOfScrollView + CGFloat(imgWH), height: CGFloat(imgWH))
@@ -550,6 +551,10 @@ class EditBandViewController: UIViewController, UITableViewDelegate, UITableView
         getBandMember(band!)
         //loadImages()
         
+        //http://stackoverflow.com/questions/26070242/move-view-with-keyboard-using-swift
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        
         
         let tapGenre = UITapGestureRecognizer(target:self, action:Selector("genreTapped:"))
         genreText.addGestureRecognizer(tapGenre)
@@ -611,6 +616,20 @@ class EditBandViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidAppear(animated: Bool) {
         loadImages()
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y -= keyboardSize.height
+        }
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y += keyboardSize.height
+        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {

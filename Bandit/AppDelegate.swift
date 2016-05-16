@@ -10,6 +10,10 @@ import UIKit
 import Parse
 import ParseUI
 import CoreData
+import AVKit
+import AVFoundation
+
+public var player = AVPlayer()
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

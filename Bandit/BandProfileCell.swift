@@ -20,6 +20,7 @@ class BandProfileCell: UITableViewCell {
     
     @IBOutlet weak var joinButton: UIButton!
     @IBOutlet weak var cameraToolBar: UIToolbar!
+    @IBOutlet weak var buttonBackground: UIView!
     
     @IBOutlet weak var actionBackground: UIView!
     @IBOutlet weak var cancelButton: UIButton!
@@ -74,24 +75,28 @@ class BandProfileCell: UITableViewCell {
             self.joinButton.layer.borderWidth = 2
             self.joinButton.layer.borderColor = AppearanceHelper.itemColor().CGColor
             self.joinButton.layer.cornerRadius = 5
+            self.buttonBackground.hidden = false
         }
         
         if self.cancelButton != nil {
             self.cancelButton.layer.borderWidth = 2
             self.cancelButton.layer.borderColor = AppearanceHelper.itemColor().CGColor
             self.cancelButton.layer.cornerRadius = 5
+            //self.buttonBackground.hidden = false
         }
         
         if self.confirmButton != nil {
             self.confirmButton.layer.borderWidth = 2
             self.confirmButton.layer.borderColor = AppearanceHelper.itemColor().CGColor
             self.confirmButton.layer.cornerRadius = 5
+            //self.buttonBackground.hidden = false
         }
         
         if self.rejectButton != nil {
             self.rejectButton.layer.borderWidth = 2
             self.rejectButton.layer.borderColor = AppearanceHelper.itemColor().CGColor
             self.rejectButton.layer.cornerRadius = 5
+            //self.buttonBackground.hidden = false
         }
     }
     

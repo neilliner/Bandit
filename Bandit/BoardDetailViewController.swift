@@ -19,6 +19,7 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
     var commentCount = 0
     var boardObject:PFObject?
     var myComment = ""
+    var placeholderDeleted = false
     
 //    override init(style: UITableViewStyle, className: String!) {
 //        super.init(style: style, className: className)
@@ -54,9 +55,11 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
     func textViewDidBeginEditing(textView: UITextView) {
         
         print("Begin Editing")
-        if textView.textColor == UIColor.lightGrayColor() {
-            textView.text = nil
+        //if textView.textColor == UIColor.lightGrayColor() {
+        if placeholderDeleted == false {
+            textView.text = ""
             textView.textColor = AppearanceHelper.itemColor()
+            placeholderDeleted = true
         }
     }
     
@@ -65,6 +68,7 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
         if textView.text.isEmpty {
             textView.text = "Your Comment Here"
             textView.textColor = UIColor.lightGrayColor()
+            placeholderDeleted = false
         }
     }
     
@@ -90,6 +94,10 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //http://stackoverflow.com/questions/26070242/move-view-with-keyboard-using-swift
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        
         boardDetailTableView.rowHeight = UITableViewAutomaticDimension
         boardDetailTableView.estimatedRowHeight = 160.0
         
@@ -100,14 +108,29 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
         //self.navigationItem.setHidesBackButton(true, animated: false)
         //self.navigationController?.navigationBar.backItem?.title = ""
         self.navigationController?.navigationBar.topItem?.title = ""
-        self.navigationItem.title = "AUDITION"
+        self.navigationItem.title = boardObject!["boardType"] as! String
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName:AppearanceHelper.itemColor()]
         //self.navigationItem.titleView?.tintColor = AppearanceHelper.itemColor()        
         //self.navigationController?.navigationBar.tintColor = AppearanceHelper.itemColor()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = true
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y -= keyboardSize.height
+        }
+        
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.view.frame.origin.y += keyboardSize.height
+        }
     }
     
     func getInstrumentsForBoard(boardItem: PFObject) -> [String] {
@@ -273,12 +296,15 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
             if let compensation = boardObject?["compensation"] as? Int {
                 cell.compensation.text = "$\(compensation)"
             }
+            else{
+                cell.compensation.text = ""
+            }
         
             return cell
         }
         else if indexPath.section == 1{
             var cell = tableView.dequeueReusableCellWithIdentifier("Board Detail Location") as! LocationCell!
-            
+
             return cell
         }
         else if indexPath.section == 2{

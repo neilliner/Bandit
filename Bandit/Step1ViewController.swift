@@ -63,13 +63,30 @@ class Step1ViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         locationPopup.hidden = false
     }
     
+//    func getCityForZip(zipCode: String) -> String{
+//        var cityName:String?
+//        let url = NSURL(string: "\(baseUrl)address=\(zipCode)&key=\(apikey)")
+//        let data = NSData(contentsOfURL: url!)
+//        let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
+//        if let result = json["results"] as? NSArray {
+//            if let address = result[0]["address_components"] as? NSArray {
+//                if let city = address[1] as? NSDictionary {
+//                    print("**************")
+//                    print(city["long_name"]!)
+//                    cityName = city["long_name"] as? String
+//                }
+//            }
+//        }
+//        return cityName!
+//    }
+    
     func getCityForZip(zipCode: String) -> String{
         var cityName:String?
         let url = NSURL(string: "\(baseUrl)address=\(zipCode)&key=\(apikey)")
         let data = NSData(contentsOfURL: url!)
         let json = try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments) as! NSDictionary
         if let result = json["results"] as? NSArray {
-            if let address = result[0]["address_components"] as? NSArray {
+            if let address = (result[0] as! NSDictionary)["address_components"] as? NSArray {
                 if let city = address[1] as? NSDictionary {
                     print("**************")
                     print(city["long_name"]!)
@@ -179,7 +196,7 @@ class Step1ViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     
     @IBAction func logout(sender: UIButton) {
         PFUser.logOut()
-        self.navigationController?.popViewControllerAnimated(true)
+        performSegueWithIdentifier("logout from step1", sender: sender)
     }
     
     @IBAction func genreDoneSelection(sender: UIButton) {

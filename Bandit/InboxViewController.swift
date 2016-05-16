@@ -93,6 +93,10 @@ class InboxViewController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        willReload = true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -279,7 +283,11 @@ class InboxViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if let io = inboxObjects[indexPath.row] as? PFObject {
             if io["notificationType"] as? String == "User Joins Band" {
                 if io.objectForKey("senderUser") as? PFUser == user {
+                    
+                    print("I applied to a band")
                     selectedBand = (io.objectForKey("receiverBand")! as! PFObject)
+                    print("********************selectedBand")
+                    print(selectedBand)
                     actionType = (io["notificationType"] as! String)
                     actionStatus = (io["status"] as! String)
                     selectedUser = (io.objectForKey("senderUser") as! PFUser)
@@ -287,24 +295,33 @@ class InboxViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     performSegueWithIdentifier("Band Profile", sender: self)
                 }
                 else{
+                    print("A user applied to join my band")
                     selectedUser = (io.objectForKey("senderUser")! as! PFUser)
                     actionType = (io["notificationType"] as! String)
                     actionStatus = (io["status"] as! String)
+                    
                     joiningBand = (io["receiverBand"] as! PFObject)
                     sendObject = io
                     performSegueWithIdentifier("Person Profile", sender: self)
                 }
             }
-            else{
+            else{//band invites user
                 if io.objectForKey("senderUser") as? PFUser == user {
+                    print("I sent an invitation to a user")
                     selectedUser = (io.objectForKey("receiverUser")! as! PFUser)
                     actionType = (io["notificationType"] as! String)
                     actionStatus = (io["status"] as! String)
+                    joiningBand = (io["senderBand"] as! PFObject)
+                    print("********************joiningBand")
+                    print(joiningBand)
                     sendObject = io
                     performSegueWithIdentifier("Person Profile", sender: self)
                 }
                 else{
+                    print("A band invited me to join them")
                     selectedBand = (io.objectForKey("senderBand")! as! PFObject)
+                    print("********************selectedBand")
+                    print(selectedBand)
                     actionType = (io["notificationType"] as! String)
                     actionStatus = (io["status"] as! String)
                     selectedUser = (io.objectForKey("senderUser") as! PFUser)
@@ -325,6 +342,9 @@ class InboxViewController: UIViewController, UITableViewDelegate, UITableViewDat
             if joiningBand != nil {
                 personVC.band = joiningBand!
             }
+//            else{
+//                personVC.band = selectedBand!
+//            }
         }
         if segue.identifier == "Band Profile"{
             let bandVC = segue.destinationViewController as! ConfirmBandViewController
