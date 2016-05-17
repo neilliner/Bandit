@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class Step1ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class Step1ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, UITextFieldDelegate {
     
     let baseUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
     let apikey = "AIzaSyCg_xGAkvB3lYANPhF4oR1UAQduOmQEuac"
@@ -549,6 +549,12 @@ class Step1ViewController: UIViewController,UITableViewDelegate,UITableViewDataS
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //http://stackoverflow.com/questions/26070242/move-view-with-keyboard-using-swift
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        
+        self.fullName.delegate = self
+        
         point1.layer.borderWidth = 2
         point1.layer.borderColor = AppearanceHelper.itemColor().CGColor
         
@@ -603,6 +609,9 @@ class Step1ViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         
         let tapGenre = UITapGestureRecognizer(target:self, action:Selector("genreTapped:"))
         genreText.addGestureRecognizer(tapGenre)
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        locationPopup.addGestureRecognizer(tap)
         
 //        let tapDate = UITapGestureRecognizer(target:self, action:Selector("dateTapped:"))
 //        dateText.addGestureRecognizer(tapDate)
@@ -675,20 +684,29 @@ class Step1ViewController: UIViewController,UITableViewDelegate,UITableViewDataS
         //datePicker.hidden = true
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
-    */
+    
+//    func keyboardWillShow(notification: NSNotification) {
+//        
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            self.view.frame.origin.y -= keyboardSize.height
+//        }
+//        
+//    }
+//    
+//    func keyboardWillHide(notification: NSNotification) {
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            self.view.frame.origin.y += keyboardSize.height
+//        }
+//    }
+
 
 }

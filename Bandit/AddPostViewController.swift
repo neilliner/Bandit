@@ -10,10 +10,11 @@ import UIKit
 import Parse
 import ParseUI
 
-class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDataSource {
+class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDataSource, UITextFieldDelegate {
     
     let baseUrl = "https://maps.googleapis.com/maps/api/geocode/json?"
     let apikey = "AIzaSyCg_xGAkvB3lYANPhF4oR1UAQduOmQEuac"
+    @IBOutlet weak var hiddenView: UIView!
     
     var tappedImage:PFImageView?
     var tappedBand:PFObject?
@@ -593,6 +594,10 @@ class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDat
         bandArray = getUserBands(PFUser.currentUser()!)
         loadImages()
         
+        subject.delegate = self
+        compen.delegate = self
+        
+        
         //http://stackoverflow.com/questions/26070242/move-view-with-keyboard-using-swift
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
@@ -678,12 +683,24 @@ class AddPostViewController: UIViewController,UITableViewDelegate,UITableViewDat
         self.confirmButton.layer.borderColor = AppearanceHelper.itemColor().CGColor
         self.confirmButton.layer.cornerRadius = 5
         
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        hiddenView.addGestureRecognizer(tap)
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         grayLayer.hidden = true
         locationPopup.hidden = true
         locationToolbar.backgroundColor = UIColor.clearColor()
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     func keyboardWillShow(notification: NSNotification) {

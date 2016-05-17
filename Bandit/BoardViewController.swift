@@ -41,8 +41,8 @@ class BoardViewController: PFQueryTableViewController{
         //query.orderByAscending("nameEnglish")
         query.includeKey("user")
         query.includeKey("band")
-        query.includeKey("instrument")
-        query.includeKey("genre")
+        //query.includeKey("instrument")
+        //query.includeKey("genre")
         return query
     }
     
@@ -175,6 +175,9 @@ class BoardViewController: PFQueryTableViewController{
         print("@@@@@@@@@@@@@@@@@@@")
 
         cell.instArray = getInstrumentsForBoard(object!)
+        for view in cell.instView.subviews {
+            view.removeFromSuperview()
+        }
         cell.loadImages()
 
         // Extract values from the PFObject to display in the table cell
@@ -262,8 +265,9 @@ class BoardViewController: PFQueryTableViewController{
                 }
             })
         }
-        else{            
-            let imageFile = object?["user"].objectForKey("image") as! PFFile
+        else{
+            print(object!["user"])
+            let imageFile = object!["user"].objectForKey("image") as! PFFile
                 imageFile.getDataInBackgroundWithBlock({
                     (imageData: NSData?, error: NSError?) -> Void in
                     if (error == nil) {

@@ -205,6 +205,17 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
         return str
     }
     
+    func applyToJob(obj: AnyObject){
+        print("applyToJob")
+        
+        let alert = UIAlertController(title: "Job applied", message: "Please wait for confirmation.", preferredStyle: UIAlertControllerStyle.Alert)
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { (action: UIAlertAction) -> Void in
+            self.navigationController?.popViewControllerAnimated(true)
+        })
+        alert.addAction(ok)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 6
     }
@@ -299,6 +310,8 @@ class BoardDetailViewController: UITableViewController, UITextViewDelegate {
             else{
                 cell.compensation.text = ""
             }
+            
+            cell.applyButton.addTarget(self, action: "applyToJob:", forControlEvents: .TouchUpInside)
         
             return cell
         }

@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class CreateBandViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CreateBandViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
 
     
     @IBOutlet weak var bandName: UITextField!
@@ -20,8 +20,8 @@ class CreateBandViewController: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var genreTableView: UITableView!
     let genres = ["Pop","Rock","Jazz","Blues","Funk","Soul","Reggae","R&B","Country"]
     var chosenGenres = [String]()
-    
     var chosenInst = [String]()
+    var keyboardShowing = false
     
     @IBOutlet weak var vox: UIImageView!
     @IBOutlet weak var egtr: UIImageView!
@@ -310,6 +310,8 @@ class CreateBandViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bandName.delegate = self
+        
         //http://stackoverflow.com/questions/26070242/move-view-with-keyboard-using-swift
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
@@ -357,6 +359,9 @@ class CreateBandViewController: UIViewController, UITableViewDelegate, UITableVi
         othr.userInteractionEnabled = true
         othr.addGestureRecognizer(tapOthr)
         
+//        let tapInfo = UITapGestureRecognizer(target:self, action:Selector("keyboardWillShow:"))
+//        genreText.addGestureRecognizer(tapGenre)
+        
         saveButton.layer.borderWidth = 2
         saveButton.layer.borderColor = AppearanceHelper.itemColor().CGColor
         saveButton.layer.cornerRadius = 5
@@ -368,18 +373,24 @@ class CreateBandViewController: UIViewController, UITableViewDelegate, UITableVi
         genreBackground.hidden = true
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
     func keyboardWillShow(notification: NSNotification) {
         
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            self.view.frame.origin.y -= keyboardSize.height
-        }
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            self.view.frame.origin.y -= keyboardSize.height
+//            keyboardShowing = true
+//        }
         
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
-            self.view.frame.origin.y += keyboardSize.height
-        }
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+//            self.view.frame.origin.y += keyboardSize.height
+//        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
